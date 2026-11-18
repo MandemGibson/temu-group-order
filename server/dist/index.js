@@ -41,7 +41,12 @@ app.use((0, cors_1.default)({
     },
     credentials: true,
 }));
-app.use(express_1.default.json({ limit: "10mb" }));
+app.use(express_1.default.json({
+    limit: "10mb",
+    verify: (req, _res, buf) => {
+        req.rawBody = buf;
+    },
+}));
 // 2. Request Logging Middleware using Winston
 app.use((req, _res, next) => {
     logger_1.logger.info(`HTTP ${req.method} ${req.path}`);

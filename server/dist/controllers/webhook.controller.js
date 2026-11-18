@@ -10,7 +10,8 @@ const logger_1 = require("../utils/logger");
 const handleMoolreWebhook = async (req, res) => {
     try {
         const signature = req.headers["x-moolre-signature"];
-        const isValidSignature = moolre_service_1.moolreService.verifyWebhookSignature(req.body, signature);
+        const rawPayload = req.rawBody || req.body;
+        const isValidSignature = moolre_service_1.moolreService.verifyWebhookSignature(rawPayload, signature);
         if (!isValidSignature) {
             res.status(401).json({ error: "Invalid webhook signature" });
             return;
@@ -103,6 +104,20 @@ const handleMoolreWebhook = async (req, res) => {
                                         poolTitle: pool.title,
                                         leaderName: pool.leader?.name || "Group Leader",
                                         itemCostHours: pool.itemCostDeadlineHours || 24,
+                                    },
+                                    sendSmsChannel: true,
+                                });
+                            }
+                            const activeBuyerIds = new Set(activeJoins.map((j) => j.buyerId));
+                            if (!activeBuyerIds.has(pool.leaderId)) {
+                                (0, notification_service_1.dispatchNotification)({
+                                    userId: pool.leaderId,
+                                    type: client_1.NotificationType.pool_funded,
+                                    payload: {
+                                        poolTitle: pool.title,
+                                        leaderName: pool.leader?.name || "Group Leader",
+                                        itemCostHours: pool.itemCostDeadlineHours || 24,
+                                        isLeader: true,
                                     },
                                     sendSmsChannel: true,
                                 });

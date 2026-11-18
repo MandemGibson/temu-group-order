@@ -72,11 +72,34 @@ export const requireLeader = (
   res: Response,
   next: NextFunction,
 ): void => {
-  return requireRoles(UserRole.leader, UserRole.admin, UserRole.super_admin)(
-    req,
-    res,
-    next,
-  );
+  if (!req.user) {
+    res.status(401).json({ error: "Unauthorized: Auth required" });
+    return;
+  }
+
+  // Admins & Super Admins bypass leader onboarding requirement
+  if (
+    req.user.role === UserRole.admin ||
+    req.user.role === UserRole.super_admin
+  ) {
+    next();
+    return;
+  }
+
+  if (req.user.role === UserRole.leader) {
+    if (req.user.leaderOnboardingStatus !== "approved") {
+      res.status(403).json({
+        error: `Forbidden: Leader onboarding status is '${req.user.leaderOnboardingStatus}', must be 'approved'.`,
+      });
+      return;
+    }
+    next();
+    return;
+  }
+
+  res.status(403).json({
+    error: "Forbidden: Approved Leader or Admin role required.",
+  });
 };
 
 /**

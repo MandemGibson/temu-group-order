@@ -73,66 +73,62 @@ export const joinPool = async (
       contributionNum = Math.round(totalGhs * 100);
     }
 
-    // Fetch pool details with active joins
-    const pool = await prisma.pool.findUnique({
-      where: { id: poolId },
-      include: {
-        leader: true,
-        joins: {
-          where: { leftVoluntarilyAt: null },
-        },
-      },
-    });
-
-    if (!pool) {
-      res.status(404).json({ error: "Pool not found" });
-      return;
-    }
-
-    if (pool.status !== PoolStatus.open) {
-      res
-        .status(400)
-        .json({ error: `Cannot join pool with status '${pool.status}'` });
-      return;
-    }
-
-    if (new Date() > pool.deadlineAt) {
-      res.status(400).json({ error: "Join deadline for this pool has passed" });
-      return;
-    }
-
-    // Check participant limit
-    if (pool.joins.length >= pool.maxParticipants) {
-      res
-        .status(400)
-        .json({ error: "Pool has reached maximum participant capacity" });
-      return;
-    }
-
-    // Calculate current available buyer credit
-    const creditAggregate = await prisma.buyerCredit.aggregate({
-      where: { userId: buyerId },
-      _sum: { amountPesewas: true },
-    });
-
-    const availableCredit = creditAggregate._sum.amountPesewas || 0;
-    const joinFee = pool.joinFeePesewas;
-    const creditApplied = Math.min(availableCredit, joinFee);
-    const moolrePaid = joinFee - creditApplied;
-
-    // Calculate commission split
-    const platformSharePesewas = Math.round(
-      (joinFee * pool.platformCommissionBps) / 10000
-    );
-    const leaderSharePesewas = joinFee - platformSharePesewas;
-
     const keyToUse = idempotencyKey
       ? String(idempotencyKey)
       : crypto.randomUUID();
 
-    // Perform atomic transaction
+    // Perform atomic transaction with internal balance & capacity validation
     const result = await prisma.$transaction(async (tx) => {
-      // 1. If credit is applied, add negative ledger entry
+      // 1. Re-fetch and lock pool status & joins inside transaction
+      const pool = await tx.pool.findUnique({
+        where: { id: poolId },
+        include: {
+          leader: true,
+          joins: {
+            where: { leftVoluntarilyAt: null },
+          },
+        },
+      });
+
+      if (!pool) {
+        throw new Error("NOT_FOUND: Pool not found");
+      }
+
+      if (pool.status !== PoolStatus.open) {
+        throw new Error(`BAD_REQUEST: Cannot join pool with status '${pool.status}'`);
+      }
+
+      if (new Date() > pool.deadlineAt) {
+        throw new Error("BAD_REQUEST: Join deadline for this pool has passed");
+      }
+
+      if (pool.joins.length >= pool.maxParticipants) {
+        throw new Error("BAD_REQUEST: Pool has reached maximum participant capacity");
+      }
+
+      const existingJoin = pool.joins.find((j) => j.buyerId === buyerId);
+      if (existingJoin) {
+        throw new Error("BAD_REQUEST: You have already joined this pool");
+      }
+
+      // 2. Calculate current available buyer credit atomically inside transaction
+      const creditAggregate = await tx.buyerCredit.aggregate({
+        where: { userId: buyerId },
+        _sum: { amountPesewas: true },
+      });
+
+      const availableCredit = Math.max(0, creditAggregate._sum.amountPesewas || 0);
+      const joinFee = pool.joinFeePesewas;
+      const creditApplied = Math.min(availableCredit, joinFee);
+      const moolrePaid = joinFee - creditApplied;
+
+      // Calculate commission split
+      const platformSharePesewas = Math.round(
+        (joinFee * pool.platformCommissionBps) / 10000
+      );
+      const leaderSharePesewas = joinFee - platformSharePesewas;
+
+      // 3. If credit is applied, add negative ledger entry
       let creditRecord = null;
       if (creditApplied > 0) {
         creditRecord = await tx.buyerCredit.create({
@@ -145,7 +141,7 @@ export const joinPool = async (
         });
       }
 
-      // 2. Create Transaction
+      // 4. Create Transaction
       const transaction = await tx.transaction.create({
         data: {
           userId: buyerId,
@@ -168,7 +164,7 @@ export const joinPool = async (
         });
       }
 
-      // 3. Create PoolJoin with Multi-Item Cart Entries
+      // 5. Create PoolJoin with Multi-Item Cart Entries
       const poolJoin = await tx.poolJoin.create({
         data: {
           poolId: pool.id,
@@ -187,7 +183,7 @@ export const joinPool = async (
         },
       });
 
-      // 4. If fee is 100% covered by credit, check if pool reached cart floor
+      // 6. If fee is 100% covered by credit, check if pool reached cart floor
       if (moolrePaid === 0) {
         const allActiveJoins = await tx.poolJoin.findMany({
           where: { poolId: pool.id, leftVoluntarilyAt: null },
@@ -244,7 +240,14 @@ export const joinPool = async (
         }
       }
 
-      return { poolJoin, transaction };
+      return {
+        poolJoin,
+        transaction,
+        creditApplied,
+        moolrePaid,
+        poolTitle: pool.title,
+        leaderName: pool.leader?.name || "Group Leader",
+      };
     });
 
     // Dispatch pool_joined notification
@@ -252,27 +255,27 @@ export const joinPool = async (
       userId: buyerId,
       type: NotificationType.pool_joined,
       payload: {
-        poolTitle: pool.title,
-        leaderName: pool.leader?.name || "Group Leader",
+        poolTitle: result.poolTitle,
+        leaderName: result.leaderName,
       },
       sendSmsChannel: true,
     });
 
     // 5. If Moolre payment is required, initiate charge
-    if (moolrePaid > 0) {
+    if (result.moolrePaid > 0) {
       const chargeResult = await moolreService.initiateCharge({
         phone: req.body.momoPhone || req.user.phone,
-        amountPesewas: moolrePaid,
+        amountPesewas: result.moolrePaid,
         idempotencyKey: keyToUse,
-        reference: `Fides Pool Join (${pool.title.slice(0, 15)})`,
+        reference: `Fides Pool Join (${result.poolTitle.slice(0, 15)})`,
       });
 
       res.status(201).json({
         message: "Join initiated, payment prompt sent to mobile money",
         poolJoin: result.poolJoin,
         transaction: result.transaction,
-        creditAppliedPesewas: creditApplied,
-        moolrePaidPesewas: moolrePaid,
+        creditAppliedPesewas: result.creditApplied,
+        moolrePaidPesewas: result.moolrePaid,
         moolrePrompt: chargeResult,
       });
       return;
@@ -282,11 +285,19 @@ export const joinPool = async (
       message: "Pool joined successfully using available platform credit!",
       poolJoin: result.poolJoin,
       transaction: result.transaction,
-      creditAppliedPesewas: creditApplied,
+      creditAppliedPesewas: result.creditApplied,
       moolrePaidPesewas: 0,
     });
   } catch (error: any) {
     logger.error("Error joining pool:", error);
+    if (error.message?.startsWith("NOT_FOUND:")) {
+      res.status(404).json({ error: error.message.replace("NOT_FOUND: ", "") });
+      return;
+    }
+    if (error.message?.startsWith("BAD_REQUEST:")) {
+      res.status(400).json({ error: error.message.replace("BAD_REQUEST: ", "") });
+      return;
+    }
     res.status(500).json({ error: "Internal server error joining pool", details: error.message });
   }
 };

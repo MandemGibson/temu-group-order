@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fides-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: temu_group_order
+    ports:
+      - "5432:5432"
+    volumes:
+      - fides_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d temu_group_order"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: fides-api
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: "postgresql://postgres:postgrespassword@postgres:5432/temu_group_order?schema=public"
+      JWT_SECRET: "fides-production-jwt-secret-replace-in-env"
+      OTP_EXPIRY_MINUTES: 5
+      TEMU_MIN_ORDER_GHS: 350
+      CLIENT_ORIGIN: "http://localhost:5173,https://fidescom.gh"
+      MOOLRE_API_KEY: "prod_moolre_key"
+      MOOLRE_API_USER: "fides_prod_user"
+      MOOLRE_API_PUBKEY: "fides_prod_pubkey"
+      MOOLRE_VAS_KEY: "fides_prod_vaskey"
+      MOOLRE_ACCOUNT_NUMBER: "100000000001"
+      MOOLRE_WEBHOOK_SECRET: "prod_moolre_secret"
+
+volumes:
+  fides_pgdata:

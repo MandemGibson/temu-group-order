@@ -12,67 +12,88 @@ import { logger } from "../utils/logger";
  * Sets paid transactions to 'disbursed' and initiates MoMo payout to leader via Moolre Transfer API.
  */
 export async function disbursePoolTransactions(poolId: string) {
-  const pool = await prisma.pool.findUnique({
-    where: { id: poolId },
-    include: { leader: true },
-  });
-
-  if (
-    !pool ||
-    (pool.status !== PoolStatus.funded &&
-      pool.status !== PoolStatus.ordered &&
-      pool.status !== PoolStatus.shipped &&
-      pool.status !== PoolStatus.delivered)
-  ) {
-    throw new Error(
-      `Pool ${poolId} is not in a funded/completed status, cannot disburse fees.`,
-    );
-  }
-
-  const joins = await prisma.poolJoin.findMany({
-    where: {
-      poolId,
-      leftVoluntarilyAt: null,
-      transaction: { status: TransactionStatus.paid },
-    },
-    include: { transaction: true },
-  });
-
-  let disbursedCount = 0;
-  let totalLeaderPesewas = 0;
-
-  for (const join of joins) {
-    if (!join.transaction) continue;
-
-    await prisma.transaction.update({
-      where: { id: join.transaction.id },
-      data: {
-        status: TransactionStatus.disbursed,
-      },
+  const result = await prisma.$transaction(async (tx) => {
+    const pool = await tx.pool.findUnique({
+      where: { id: poolId },
+      include: { leader: true },
     });
 
-    totalLeaderPesewas += join.transaction.leaderSharePesewas;
-    disbursedCount++;
-  }
+    if (
+      !pool ||
+      (pool.status !== PoolStatus.funded &&
+        pool.status !== PoolStatus.ordered &&
+        pool.status !== PoolStatus.shipped &&
+        pool.status !== PoolStatus.delivered)
+    ) {
+      throw new Error(
+        `Pool ${poolId} is not in a funded/completed status, cannot disburse fees.`
+      );
+    }
+
+    const joins = await tx.poolJoin.findMany({
+      where: {
+        poolId,
+        leftVoluntarilyAt: null,
+        transaction: { status: TransactionStatus.paid },
+      },
+      include: { transaction: true },
+    });
+
+    let disbursedCount = 0;
+    let totalLeaderPesewas = 0;
+
+    for (const join of joins) {
+      if (!join.transaction) continue;
+
+      await tx.transaction.update({
+        where: { id: join.transaction.id },
+        data: {
+          status: TransactionStatus.disbursed,
+        },
+      });
+
+      totalLeaderPesewas += join.transaction.leaderSharePesewas;
+      disbursedCount++;
+    }
+
+    return {
+      disbursedCount,
+      totalLeaderPesewas,
+      leaderPhone: pool.leader?.phone,
+      leaderName: pool.leader?.name,
+      poolTitle: pool.title,
+      poolId: pool.id,
+    };
+  });
 
   // Initiate real MoMo payout transfer to leader via Moolre Transfer API
-  if (totalLeaderPesewas > 0 && pool.leader?.phone) {
-    const payoutRef = `PAYOUT_${pool.id.slice(0, 8)}_${Date.now()}`;
+  if (result.totalLeaderPesewas > 0 && result.leaderPhone) {
+    const payoutRef = `PAYOUT_${result.poolId.slice(0, 8)}_${Date.now()}`;
     logger.info(
-      `💸 Initiating Moolre MoMo Payout to Leader ${pool.leader.name} (${pool.leader.phone}): GH₵ ${(totalLeaderPesewas / 100).toFixed(2)}`,
+      `Initiating Moolre MoMo Payout to Leader ${result.leaderName} (${result.leaderPhone}): GH₵ ${(result.totalLeaderPesewas / 100).toFixed(2)}`
     );
 
-    const payoutResult = await moolreService.initiatePayoutTransfer({
-      receiverPhone: pool.leader.phone,
-      amountPesewas: totalLeaderPesewas,
-      externalRef: payoutRef,
-      reference: `Fides Leader Payout for ${pool.title.slice(0, 20)}`,
-    });
+    try {
+      const payoutResult = await moolreService.initiatePayoutTransfer({
+        receiverPhone: result.leaderPhone,
+        amountPesewas: result.totalLeaderPesewas,
+        externalRef: payoutRef,
+        reference: `Fides Leader Payout for ${result.poolTitle.slice(0, 20)}`,
+      });
 
-    logger.info(`💸 Moolre Payout Result:`, payoutResult);
+      if (!payoutResult.success) {
+        logger.warn(
+          `⚠️ Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`
+        );
+      } else {
+        logger.info(`✅ Moolre Payout Result:`, payoutResult);
+      }
+    } catch (payoutErr) {
+      logger.error(`❌ Moolre payout transfer exception:`, payoutErr);
+    }
   }
 
-  return { disbursedCount, totalLeaderPesewas };
+  return { disbursedCount: result.disbursedCount, totalLeaderPesewas: result.totalLeaderPesewas };
 }
 
 /**

@@ -247,18 +247,33 @@ class MoolreServiceImplementation {
         }
     }
     verifyWebhookSignature(rawBody, signature) {
-        const isDev = env_1.env.NODE_ENV !== "production";
-        if (isDev) {
-            return true;
-        }
         if (!signature)
             return false;
-        const bodyString = typeof rawBody === "string" ? rawBody : JSON.stringify(rawBody);
-        const expectedSignature = crypto_1.default
-            .createHmac("sha256", this.secret)
-            .update(bodyString)
-            .digest("hex");
-        return crypto_1.default.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
+        // In development mode, allow signature bypass if explicitly configured or signature is 'dev_bypass'
+        if (env_1.env.NODE_ENV === "development" && signature === "dev_bypass") {
+            return true;
+        }
+        try {
+            const bodyBuffer = Buffer.isBuffer(rawBody)
+                ? rawBody
+                : typeof rawBody === "string"
+                    ? Buffer.from(rawBody, "utf8")
+                    : Buffer.from(JSON.stringify(rawBody), "utf8");
+            const expectedSignature = crypto_1.default
+                .createHmac("sha256", this.secret)
+                .update(bodyBuffer)
+                .digest("hex");
+            const sigBuf = Buffer.from(signature, "utf8");
+            const expBuf = Buffer.from(expectedSignature, "utf8");
+            if (sigBuf.length !== expBuf.length) {
+                return false;
+            }
+            return crypto_1.default.timingSafeEqual(sigBuf, expBuf);
+        }
+        catch (err) {
+            logger_1.logger.error("Error verifying webhook signature:", err);
+            return false;
+        }
     }
 }
 exports.moolreService = new MoolreServiceImplementation();

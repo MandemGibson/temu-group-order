@@ -42,7 +42,14 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req: any, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 
 // 2. Request Logging Middleware using Winston
 app.use((req: Request, _res: Response, next: NextFunction) => {

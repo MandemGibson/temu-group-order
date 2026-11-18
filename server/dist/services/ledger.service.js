@@ -11,52 +11,72 @@ const logger_1 = require("../utils/logger");
  * Sets paid transactions to 'disbursed' and initiates MoMo payout to leader via Moolre Transfer API.
  */
 async function disbursePoolTransactions(poolId) {
-    const pool = await db_1.prisma.pool.findUnique({
-        where: { id: poolId },
-        include: { leader: true },
-    });
-    if (!pool ||
-        (pool.status !== client_1.PoolStatus.funded &&
-            pool.status !== client_1.PoolStatus.ordered &&
-            pool.status !== client_1.PoolStatus.shipped &&
-            pool.status !== client_1.PoolStatus.delivered)) {
-        throw new Error(`Pool ${poolId} is not in a funded/completed status, cannot disburse fees.`);
-    }
-    const joins = await db_1.prisma.poolJoin.findMany({
-        where: {
-            poolId,
-            leftVoluntarilyAt: null,
-            transaction: { status: client_1.TransactionStatus.paid },
-        },
-        include: { transaction: true },
-    });
-    let disbursedCount = 0;
-    let totalLeaderPesewas = 0;
-    for (const join of joins) {
-        if (!join.transaction)
-            continue;
-        await db_1.prisma.transaction.update({
-            where: { id: join.transaction.id },
-            data: {
-                status: client_1.TransactionStatus.disbursed,
+    const result = await db_1.prisma.$transaction(async (tx) => {
+        const pool = await tx.pool.findUnique({
+            where: { id: poolId },
+            include: { leader: true },
+        });
+        if (!pool ||
+            (pool.status !== client_1.PoolStatus.funded &&
+                pool.status !== client_1.PoolStatus.ordered &&
+                pool.status !== client_1.PoolStatus.shipped &&
+                pool.status !== client_1.PoolStatus.delivered)) {
+            throw new Error(`Pool ${poolId} is not in a funded/completed status, cannot disburse fees.`);
+        }
+        const joins = await tx.poolJoin.findMany({
+            where: {
+                poolId,
+                leftVoluntarilyAt: null,
+                transaction: { status: client_1.TransactionStatus.paid },
             },
+            include: { transaction: true },
         });
-        totalLeaderPesewas += join.transaction.leaderSharePesewas;
-        disbursedCount++;
-    }
+        let disbursedCount = 0;
+        let totalLeaderPesewas = 0;
+        for (const join of joins) {
+            if (!join.transaction)
+                continue;
+            await tx.transaction.update({
+                where: { id: join.transaction.id },
+                data: {
+                    status: client_1.TransactionStatus.disbursed,
+                },
+            });
+            totalLeaderPesewas += join.transaction.leaderSharePesewas;
+            disbursedCount++;
+        }
+        return {
+            disbursedCount,
+            totalLeaderPesewas,
+            leaderPhone: pool.leader?.phone,
+            leaderName: pool.leader?.name,
+            poolTitle: pool.title,
+            poolId: pool.id,
+        };
+    });
     // Initiate real MoMo payout transfer to leader via Moolre Transfer API
-    if (totalLeaderPesewas > 0 && pool.leader?.phone) {
-        const payoutRef = `PAYOUT_${pool.id.slice(0, 8)}_${Date.now()}`;
-        logger_1.logger.info(`💸 Initiating Moolre MoMo Payout to Leader ${pool.leader.name} (${pool.leader.phone}): GH₵ ${(totalLeaderPesewas / 100).toFixed(2)}`);
-        const payoutResult = await moolre_service_1.moolreService.initiatePayoutTransfer({
-            receiverPhone: pool.leader.phone,
-            amountPesewas: totalLeaderPesewas,
-            externalRef: payoutRef,
-            reference: `Fides Leader Payout for ${pool.title.slice(0, 20)}`,
-        });
-        logger_1.logger.info(`💸 Moolre Payout Result:`, payoutResult);
+    if (result.totalLeaderPesewas > 0 && result.leaderPhone) {
+        const payoutRef = `PAYOUT_${result.poolId.slice(0, 8)}_${Date.now()}`;
+        logger_1.logger.info(`💸 Initiating Moolre MoMo Payout to Leader ${result.leaderName} (${result.leaderPhone}): GH₵ ${(result.totalLeaderPesewas / 100).toFixed(2)}`);
+        try {
+            const payoutResult = await moolre_service_1.moolreService.initiatePayoutTransfer({
+                receiverPhone: result.leaderPhone,
+                amountPesewas: result.totalLeaderPesewas,
+                externalRef: payoutRef,
+                reference: `Fides Leader Payout for ${result.poolTitle.slice(0, 20)}`,
+            });
+            if (!payoutResult.success) {
+                logger_1.logger.warn(`⚠️ Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`);
+            }
+            else {
+                logger_1.logger.info(`✅ Moolre Payout Result:`, payoutResult);
+            }
+        }
+        catch (payoutErr) {
+            logger_1.logger.error(`❌ Moolre payout transfer exception:`, payoutErr);
+        }
     }
-    return { disbursedCount, totalLeaderPesewas };
+    return { disbursedCount: result.disbursedCount, totalLeaderPesewas: result.totalLeaderPesewas };
 }
 /**
  * Void join fees to buyer credit when a pool dies (fails to reach 350 GHS minimum).

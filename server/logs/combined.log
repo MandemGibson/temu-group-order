@@ -220,3 +220,120 @@
 {"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-09-05 18:33:57"}
 {"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-09-05 18:34:01"}
 {"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-09-05 18:34:01"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:14:46"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:14:46"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:16:15"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:16:15"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:16:15"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:16:15"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:16:15"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:16:29"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:16:29"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:16:29"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:16:29"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:16:29"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:16:35"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:16:35"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:16:35"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:16:36"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:16:36"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:16:45"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:16:45"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:16:45"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:16:46"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:16:46"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:17:04"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:17:04"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:17:04"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:17:04"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:17:04"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:17:36"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:17:36"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:17:36"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:17:36"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:17:36"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:17:49"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:17:49"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:17:49"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:17:49"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:17:49"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:18:12"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:18:12"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:18:12"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:18:13"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:18:13"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:18:34"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:18:34"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:18:34"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:18:34"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:18:34"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:19:04"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:19:04"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:19:04"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:19:04"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:19:04"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:19:15"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:19:15"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:19:15"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:19:15"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:19:15"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:19:24"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:19:24"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:19:24"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:19:25"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:19:25"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:19:48"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:19:48"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:19:48"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:19:48"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:19:48"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:19:56"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:19:56"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:19:56"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:19:57"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:19:57"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:20:41"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:20:41"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:20:41"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:20:41"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:20:41"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:20:46"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:20:46"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:20:46"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:20:46"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:20:46"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:20:51"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:20:51"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:20:51"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18 00:20:51"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18 00:20:51"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18 00:21:05"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18 00:21:05"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18 00:21:05"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:21:05.449Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:21:05.450Z"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T00:22:20.690Z"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T00:22:20.692Z"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T00:22:20.708Z"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:22:21.301Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:22:21.301Z"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T00:22:43.932Z"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T00:22:43.933Z"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T00:22:43.947Z"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:22:44.495Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:22:44.496Z"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T00:32:49.752Z"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T00:32:49.752Z"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T00:32:49.765Z"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:32:50.408Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:32:50.409Z"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T00:52:51.347Z"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T00:52:51.347Z"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T00:52:51.359Z"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:52:51.956Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:52:51.957Z"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T00:56:34.426Z"}
+{"level":"info","message":"🔌 HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T00:56:34.426Z"}
+{"level":"info","message":"📦 PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T00:56:34.438Z"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T00:56:35.045Z"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T00:56:35.045Z"}

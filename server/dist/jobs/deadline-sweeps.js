@@ -22,6 +22,7 @@ async function sweepExpiredJoinDeadlines() {
             deadlineAt: { lt: now },
         },
         include: {
+            leader: true,
             joins: {
                 where: { leftVoluntarilyAt: null },
             },
@@ -44,6 +45,34 @@ async function sweepExpiredJoinDeadlines() {
                 },
             });
             await (0, ledger_service_1.disbursePoolTransactions)(pool.id);
+            // Notify buyers
+            for (const j of pool.joins) {
+                (0, notification_service_1.dispatchNotification)({
+                    userId: j.buyerId,
+                    type: client_1.NotificationType.pool_funded,
+                    payload: {
+                        poolTitle: pool.title,
+                        leaderName: pool.leader?.name || "Group Leader",
+                        itemCostHours: pool.itemCostDeadlineHours || 24,
+                    },
+                    sendSmsChannel: true,
+                });
+            }
+            // Notify pool leader if not already notified in joins loop
+            const buyerIds = new Set(pool.joins.map((j) => j.buyerId));
+            if (!buyerIds.has(pool.leaderId)) {
+                (0, notification_service_1.dispatchNotification)({
+                    userId: pool.leaderId,
+                    type: client_1.NotificationType.pool_funded,
+                    payload: {
+                        poolTitle: pool.title,
+                        leaderName: pool.leader?.name || "Group Leader",
+                        itemCostHours: pool.itemCostDeadlineHours || 24,
+                        isLeader: true,
+                    },
+                    sendSmsChannel: true,
+                });
+            }
             succeededCount++;
         }
         else {
@@ -59,6 +88,19 @@ async function sweepExpiredJoinDeadlines() {
                     type: client_1.NotificationType.pool_dead,
                     payload: {
                         poolTitle: pool.title,
+                    },
+                    sendSmsChannel: true,
+                });
+            }
+            // Notify pool leader if not already in joins loop
+            const buyerIds = new Set(pool.joins.map((j) => j.buyerId));
+            if (!buyerIds.has(pool.leaderId)) {
+                (0, notification_service_1.dispatchNotification)({
+                    userId: pool.leaderId,
+                    type: client_1.NotificationType.pool_dead,
+                    payload: {
+                        poolTitle: pool.title,
+                        isLeader: true,
                     },
                     sendSmsChannel: true,
                 });

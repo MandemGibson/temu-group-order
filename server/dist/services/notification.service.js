@@ -21,6 +21,13 @@ const generateNotificationText = (type, payload) => {
                 body: `You joined "${payload.poolTitle}" with ${payload.leaderName || "leader"}. You'll be notified once the pool is funded.`,
             };
         case client_1.NotificationType.pool_funded:
+            if (payload.isLeader) {
+                return {
+                    title: "Pool Funded — Item Cost Payments Open",
+                    body: `"${payload.poolTitle}" is funded! Buyers can now submit item cost payments.`,
+                    smsText: `${platform}: "${payload.poolTitle}" hit its minimum! Item cost payments from buyers are now open — check your leader dashboard.`,
+                };
+            }
             return {
                 title: "Pool Funded — Item Cost Payment Due",
                 body: `"${payload.poolTitle}" is funded! Pay ${payload.leaderName} the item cost (${payload.amount}) via MoMo ${payload.momoNumber || ""}, ref: ${payload.paymentReference || ""}, within ${payload.itemCostHours || 24} hours.`,
@@ -66,6 +73,13 @@ const generateNotificationText = (type, payload) => {
                 body: `${payload.leaderName || "The leader"} marked "${payload.poolTitle}" as delivered. Confirm you received your item to unlock your review.`,
             };
         case client_1.NotificationType.pool_dead:
+            if (payload.isLeader) {
+                return {
+                    title: "Pool Closed (Unfilled)",
+                    body: `"${payload.poolTitle}" didn't reach the 350 GHS cart floor in time and has been closed.`,
+                    smsText: `${platform}: "${payload.poolTitle}" didn't fill in time and has been closed.`,
+                };
+            }
             return {
                 title: "Pool Closed (Unfilled)",
                 body: `"${payload.poolTitle}" didn't reach the 350 GHS cart floor in time. Your ${payload.amount || "join fee"} is now ${platform} credit.`,

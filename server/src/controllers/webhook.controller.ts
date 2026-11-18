@@ -16,8 +16,9 @@ export const handleMoolreWebhook = async (
 ): Promise<void> => {
   try {
     const signature = req.headers["x-moolre-signature"] as string | undefined;
+    const rawPayload = (req as any).rawBody || req.body;
     const isValidSignature = moolreService.verifyWebhookSignature(
-      req.body,
+      rawPayload,
       signature
     );
 

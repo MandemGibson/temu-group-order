@@ -41,7 +41,10 @@ export interface IMoolreService {
   initiatePayoutTransfer(
     params: MoolreTransferParams,
   ): Promise<MoolreTransferResult>;
-  verifyWebhookSignature(rawBody: string | object, signature?: string): boolean;
+  verifyWebhookSignature(
+    rawBody: string | Buffer | object,
+    signature?: string
+  ): boolean;
 }
 
 // Auto-detect Ghana mobile money network channel code for Collection (13=MTN, 6=Telecel, 7=AT)
@@ -341,27 +344,40 @@ class MoolreServiceImplementation implements IMoolreService {
   }
 
   verifyWebhookSignature(
-    rawBody: string | object,
-    signature?: string,
+    rawBody: string | Buffer | object,
+    signature?: string
   ): boolean {
-    const isDev = env.NODE_ENV !== "production";
-    if (isDev) {
+    if (!signature) return false;
+
+    // In development mode, allow signature bypass if explicitly configured or signature is 'dev_bypass'
+    if (env.NODE_ENV === "development" && signature === "dev_bypass") {
       return true;
     }
 
-    if (!signature) return false;
+    try {
+      const bodyBuffer: Buffer = Buffer.isBuffer(rawBody)
+        ? rawBody
+        : typeof rawBody === "string"
+        ? Buffer.from(rawBody, "utf8")
+        : Buffer.from(JSON.stringify(rawBody), "utf8");
 
-    const bodyString =
-      typeof rawBody === "string" ? rawBody : JSON.stringify(rawBody);
-    const expectedSignature = crypto
-      .createHmac("sha256", this.secret)
-      .update(bodyString)
-      .digest("hex");
+      const expectedSignature = crypto
+        .createHmac("sha256", this.secret)
+        .update(bodyBuffer)
+        .digest("hex");
 
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expectedSignature),
-    );
+      const sigBuf = Buffer.from(signature, "utf8");
+      const expBuf = Buffer.from(expectedSignature, "utf8");
+
+      if (sigBuf.length !== expBuf.length) {
+        return false;
+      }
+
+      return crypto.timingSafeEqual(sigBuf, expBuf);
+    } catch (err) {
+      logger.error("Error verifying webhook signature:", err);
+      return false;
+    }
   }
 }
 

@@ -5,10 +5,18 @@ import {
   buyerConfirmDelivery,
 } from "../controllers/fulfillment.controller";
 import { requireAuth, requireLeader } from "../middleware/auth";
+import { validate } from "../middleware/validate";
+import { markShippedSchema } from "../validators/schemas";
 
 const router = Router();
 
-router.post("/pools/:id/tracking", requireAuth, requireLeader, updateTracking);
+router.post(
+  "/pools/:id/tracking",
+  requireAuth,
+  requireLeader,
+  validate({ body: markShippedSchema }),
+  updateTracking
+);
 router.post(
   "/pool-joins/:id/mark-delivered",
   requireAuth,
