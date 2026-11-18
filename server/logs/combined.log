@@ -1,0 +1,128 @@
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 00:42:24"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 00:42:24"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 00:42:40"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:01:54"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:16:01"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:16:01"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:16:01"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:16:08"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:16:09"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:16:09"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:22:31"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:22:31"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:22:31"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:22:59"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:23:00"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:23:00"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:23:07"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:23:07"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:23:07"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:23:38"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:23:39"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:23:39"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:24:17"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:24:17"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:24:17"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:24:34"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:24:35"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:24:35"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:26:52"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:26:53"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:26:53"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:29:20"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:29:20"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:29:20"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:36:18"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:36:18"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:36:18"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:36:50"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:36:51"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:36:51"}
+{"level":"info","message":"HTTP POST /api/upload","service":"fides-backend","timestamp":"2026-08-21 01:38:45"}
+{"level":"warn","message":"⚠️ CLOUDINARY credentials not configured. Converting buffer to data URI string for dev preview.","service":"fides-backend","timestamp":"2026-08-21 01:38:45"}
+{"level":"info","message":"HTTP POST /api/upload","service":"fides-backend","timestamp":"2026-08-21 01:40:02"}
+{"level":"warn","message":"⚠️ CLOUDINARY credentials not configured. Converting buffer to data URI string for dev preview.","service":"fides-backend","timestamp":"2026-08-21 01:40:02"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:43:01"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:47:15"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:47:16"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:47:16"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:47:18"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:47:19"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:47:19"}
+{"level":"warn","message":"🛑 SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-08-21 01:50:48"}
+{"level":"info","message":"🚀 Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-08-21 01:52:40"}
+{"level":"info","message":"🏥 Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-08-21 01:52:40"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:54:21"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:54:21"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:54:21"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 01:54:22"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 01:54:22"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 01:54:22"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 04:41:01"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 12:14:43"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:35"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:37"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:38"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:39"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:53"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:53"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:53"}
+{"level":"info","message":"HTTP GET /api/notifications","service":"fides-backend","timestamp":"2026-08-21 13:37:54"}
+{"level":"info","message":"HTTP GET /api/me/credit","service":"fides-backend","timestamp":"2026-08-21 13:37:54"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:37:54"}
+{"level":"info","message":"HTTP POST /api/upload","service":"fides-backend","timestamp":"2026-08-21 13:38:30"}
+{"level":"warn","message":"⚠️ CLOUDINARY credentials not configured. Converting buffer to data URI string for dev preview.","service":"fides-backend","timestamp":"2026-08-21 13:38:30"}
+{"level":"info","message":"HTTP POST /api/pools/9bb5856c-11c2-47e2-b682-3bc1b0c7919c/join","service":"fides-backend","timestamp":"2026-08-21 13:38:46"}
+{"level":"info","message":"💳 [MOOLRE PAYMENT MOCK] Initiated charge of GH₵ 8.00 to 0241234567 (Channel 13, Ref: 70e60721-f4a7-4fee-b780-e0d7fa8f5d04)","service":"fides-backend","timestamp":"2026-08-21 13:38:46"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:38:46"}
+{"level":"info","message":"📱 [CONSOLE SMS] Notification Sent to +233241000001 | Text: \"You joined \"Uncategorized Miscellaneous Car Detail Supplies & Microfiber Cloths\" with Esi Appiah. You'll be notified once the pool is funded.\"","service":"fides-backend","timestamp":"2026-08-21 13:38:46"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-21 13:40:02"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-22 03:04:10"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-22 03:04:12"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-22 14:24:20"}
+{"level":"info","message":"HTTP GET /api/pools","service":"fides-backend","timestamp":"2026-08-22 14:24:20"}

@@ -1,0 +1,358 @@
+// ==========================================
+// Temu Group-Order Platform — Prisma Schema
+// ==========================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ------------------------------------------
+// Enums
+// ------------------------------------------
+
+enum UserRole {
+  buyer
+  leader // a leader is still a buyer underneath — this just adds leader-only fields/permissions
+  admin
+  super_admin
+}
+
+enum LeaderOnboardingStatus {
+  not_applied
+  pending_review
+  approved
+  rejected
+  suspended
+}
+
+enum PoolStatus {
+  open
+  funded
+  ordered
+  shipped
+  delivered
+  dead
+}
+
+enum ItemCostStatus {
+  unpaid
+  proof_uploaded // buyer uploaded proof + confirmed "I've paid"
+  funded // leader independently confirmed receipt (two-sided lock-in)
+  dropped // missed the sub-deadline, never resolved
+}
+
+enum TransactionStatus {
+  pending // Moolre payment initiated, awaiting webhook confirmation
+  paid // Moolre confirmed payment; pending_split not yet disbursed
+  disbursed // pool succeeded — leader/platform shares paid out
+  voided // pool died — fee converted to buyer credit instead
+  failed // Moolre payment itself failed
+}
+
+enum CreditSourceType {
+  dead_pool
+  dropped_join
+  join_fee_spend
+  admin_grant
+  dead_pool_refund
+}
+
+enum DisputeType {
+  funded_dispute // "I paid item cost but wasn't marked funded"
+  delivery_dispute // "I never received my item"
+  fraud_report // "leader ran off with item cost money"
+  shipping_deadline_missed // system-raised: leader didn't ship within 24-48h of close
+}
+
+enum DisputeStatus {
+  open
+  under_review
+  resolved_buyer
+  resolved_leader
+  dismissed
+}
+
+// ------------------------------------------
+// Core identity
+// ------------------------------------------
+
+model User {
+  id              String    @id @default(uuid())
+  phone           String    @unique
+  phoneVerifiedAt DateTime?
+  email           String?   @unique
+  emailVerifiedAt DateTime?
+  name            String
+  role            UserRole  @default(buyer)
+  createdAt       DateTime  @default(now())
+
+  // Leader-specific fields — null/unused for plain buyers
+  leaderOnboardingStatus  LeaderOnboardingStatus @default(not_applied)
+  leaderOnboardingFeeTxId String?                @unique
+  ghanaCardNumber         String?
+  ghanaCardImageUrl       String?
+  selfieImageUrl          String?
+  leaderApprovedAt        DateTime?
+  leaderSuspendedAt       DateTime?
+  leaderSuspendedReason   String?
+
+  // Relations
+  poolsLed       Pool[]         @relation("PoolLeader")
+  poolJoins      PoolJoin[]
+  transactions   Transaction[]
+  creditLedger   BuyerCredit[]
+  reviewsWritten Review[]       @relation("ReviewAuthor")
+  disputesRaised Dispute[]      @relation("DisputeRaisedBy")
+  notifications  Notification[]
+
+  @@index([role])
+  @@index([leaderOnboardingStatus])
+}
+
+// ------------------------------------------
+// Pools
+// ------------------------------------------
+
+model Pool {
+  id             String  @id @default(uuid())
+  leaderId       String
+  leader         User    @relation("PoolLeader", fields: [leaderId], references: [id])
+  isPlatformPool Boolean @default(false) // true = platform runs it directly, leaderId = a platform "house" account
+
+  title             String
+  itemScreenshotUrl String?
+  category          String?
+
+  // Pool economics
+  targetPesewas         Int // soft planning goal, not enforced
+  minPerPersonPesewas   Int
+  maxParticipants       Int
+  joinFeePesewas        Int // leader-set freely, lives here
+  platformCommissionBps Int // basis points e.g. 1000 = 10%, agreed per leader/pool
+
+  // Lifecycle
+  status                PoolStatus @default(open)
+  deadlineAt            DateTime // join-window deadline: leader-set within 24h–3d of creation
+  itemCostDeadlineHours Int // leader-set per pool within 12-48h, applied to each PoolJoin once funded
+  fundedAt              DateTime?
+  orderedAt             DateTime?
+  shipDeadlineAt        DateTime? // fundedAt + 24–48h, computed on funding
+  shippedAt             DateTime?
+  trackingNumber        String?
+  shippingProofImageUrl String?
+  deliveredAt           DateTime?
+
+  // Recreation chain (max one carry-over)
+  recreatedFromId String? @unique
+  recreatedFrom   Pool?   @relation("PoolRecreation", fields: [recreatedFromId], references: [id])
+  recreatedInto   Pool?   @relation("PoolRecreation")
+  recreateCount   Int     @default(0) // 0 = original, 1 = one recreation used
+
+  createdAt DateTime @default(now())
+
+  joins   PoolJoin[]
+  reviews Review[]
+
+  @@index([status])
+  @@index([leaderId])
+  @@index([deadlineAt])
+}
+
+// A single buyer's participation in a single pool
+model PoolJoin {
+  id      String @id @default(uuid())
+  poolId  String
+  pool    Pool   @relation(fields: [poolId], references: [id])
+  buyerId String
+  buyer   User   @relation(fields: [buyerId], references: [id])
+
+  // What they're buying (Cart items)
+  items               PoolJoinItem[]
+  quantity            Int      @default(1)
+  itemScreenshotUrl   String?
+  contributionPesewas Int // counts toward the pool's 350-floor / target
+  editableUntilPaid   Boolean @default(true)
+
+  // Join fee (this buyer's transaction)
+  transactionId String?      @unique
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+
+  // Item cost — two-sided confirmation
+  itemCostPesewas         Int?
+  itemCostStatus          ItemCostStatus @default(unpaid)
+  itemCostDeadlineAt      DateTime?
+  proofOfPaymentUrl       String?
+  buyerConfirmedPaidAt    DateTime?
+  leaderConfirmedFundedAt DateTime?
+  paymentReference        String? // "{name}-{last4}"
+
+  // Delivery — two-sided confirmation
+  leaderMarkedDeliveredAt   DateTime?
+  buyerConfirmedDeliveredAt DateTime?
+
+  // Voluntary exit
+  leftVoluntarilyAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  disputes Dispute[]
+  review   Review?
+
+  @@unique([poolId, buyerId])
+  @@index([poolId])
+  @@index([buyerId])
+  @@index([itemCostStatus])
+}
+
+model PoolJoinItem {
+  id                String   @id @default(uuid())
+  poolJoinId        String
+  poolJoin          PoolJoin @relation(fields: [poolJoinId], references: [id], onDelete: Cascade)
+
+  itemDescription   String
+  temuItemUrl       String?
+  itemSpecs         String?
+  quantity          Int      @default(1)
+  estimatedCostGhs  Float?
+  itemScreenshotUrl String?
+
+  createdAt DateTime @default(now())
+
+  @@index([poolJoinId])
+}
+
+// ------------------------------------------
+// Financial Ledger
+// ------------------------------------------
+
+model Transaction {
+  id             String            @id @default(uuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id])
+  amountPesewas  Int
+  status         TransactionStatus @default(pending)
+  idempotencyKey String            @unique
+  moolreTxRef    String?           @unique
+
+  // Frozen at payment-confirmation time for accurate disbursement later
+  leaderSharePesewas   Int
+  platformSharePesewas Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  poolJoin PoolJoin?
+  credit   BuyerCredit?
+
+  @@index([userId])
+  @@index([status])
+}
+
+model BuyerCredit {
+  id            String           @id @default(uuid())
+  userId        String
+  user          User             @relation(fields: [userId], references: [id])
+  amountPesewas Int // Positive = credit added, Negative = credit spent
+  sourceType    CreditSourceType
+  sourcePoolId  String?
+  transactionId String?          @unique
+  transaction   Transaction?     @relation(fields: [transactionId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ------------------------------------------
+// Trust Infrastructure: Reviews & Disputes
+// ------------------------------------------
+
+model Review {
+  id         String   @id @default(uuid())
+  poolId     String
+  pool       Pool     @relation(fields: [poolId], references: [id])
+  authorId   String
+  author     User     @relation("ReviewAuthor", fields: [authorId], references: [id])
+  poolJoinId String   @unique
+  poolJoin   PoolJoin @relation(fields: [poolJoinId], references: [id])
+
+  rating    Int // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@index([poolId])
+  @@index([authorId])
+}
+
+model Dispute {
+  id         String   @id @default(uuid())
+  poolJoinId String
+  poolJoin   PoolJoin @relation(fields: [poolJoinId], references: [id])
+  raisedById String
+  raisedBy   User     @relation("DisputeRaisedBy", fields: [raisedById], references: [id])
+
+  type        DisputeType
+  status      DisputeStatus @default(open)
+  reason      String
+  evidenceUrl String?
+
+  adminNotes String?
+  resolvedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([poolJoinId])
+  @@index([status])
+}
+
+// ------------------------------------------
+// Notification System
+// ------------------------------------------
+
+enum NotificationType {
+  otp_code
+  pool_joined
+  pool_funded
+  item_cost_reminder
+  item_cost_deadline_missed
+  proof_uploaded_needs_confirmation
+  pool_shipped
+  shipping_deadline_reminder
+  shipping_deadline_missed
+  delivery_marked_needs_confirmation
+  pool_dead
+  pool_recreated
+  dispute_opened
+  dispute_resolved
+  leader_application_status
+  review_unlocked
+  leader_payout_disbursed
+}
+
+enum NotificationChannel {
+  sms
+  email
+  in_app
+}
+
+model Notification {
+  id        String              @id @default(uuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id])
+  type      NotificationType
+  channel   NotificationChannel
+  title     String?
+  body      String?
+  payload   Json?
+  sentAt    DateTime?
+  readAt    DateTime?
+  failedAt  DateTime?
+  createdAt DateTime            @default(now())
+
+  @@index([userId, readAt])
+}

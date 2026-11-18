@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const pool_controller_1 = require("../controllers/pool.controller");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.get("/", pool_controller_1.listPools);
+router.get("/:id", pool_controller_1.getPoolById);
+router.post("/", auth_1.requireAuth, auth_1.requireLeader, pool_controller_1.createPool);
+router.patch("/:id/close", auth_1.requireAuth, auth_1.requireLeader, pool_controller_1.closePool);
+router.post("/:id/recreate", auth_1.requireAuth, auth_1.requireLeader, pool_controller_1.recreatePool);
+exports.default = router;

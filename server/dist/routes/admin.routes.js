@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const admin_controller_1 = require("../controllers/admin.controller");
+const dispute_controller_1 = require("../controllers/dispute.controller");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.get("/leader-applications", auth_1.requireAuth, auth_1.requireAdmin, admin_controller_1.listLeaderApplications);
+router.post("/leaders/:id/approve", auth_1.requireAuth, auth_1.requireAdmin, admin_controller_1.approveLeader);
+router.post("/leaders/:id/suspend", auth_1.requireAuth, auth_1.requireAdmin, admin_controller_1.suspendLeader);
+router.get("/disputes", auth_1.requireAuth, auth_1.requireAdmin, dispute_controller_1.getDisputesForAdmin);
+router.patch("/disputes/:id", auth_1.requireAuth, auth_1.requireAdmin, dispute_controller_1.resolveDispute);
+exports.default = router;

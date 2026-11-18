@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const fulfillment_controller_1 = require("../controllers/fulfillment.controller");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.post("/pools/:id/tracking", auth_1.requireAuth, auth_1.requireLeader, fulfillment_controller_1.updateTracking);
+router.post("/pool-joins/:id/mark-delivered", auth_1.requireAuth, auth_1.requireLeader, fulfillment_controller_1.leaderMarkDelivered);
+router.post("/pool-joins/:id/confirm-delivery", auth_1.requireAuth, fulfillment_controller_1.buyerConfirmDelivery);
+exports.default = router;
