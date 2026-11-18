@@ -142,6 +142,21 @@ export const handleMoolreWebhook = async (
                   sendSmsChannel: true,
                 });
               }
+
+              const activeBuyerIds = new Set(activeJoins.map((j) => j.buyerId));
+              if (!activeBuyerIds.has(pool.leaderId)) {
+                dispatchNotification({
+                  userId: pool.leaderId,
+                  type: NotificationType.pool_funded,
+                  payload: {
+                    poolTitle: pool.title,
+                    leaderName: pool.leader?.name || "Group Leader",
+                    itemCostHours: pool.itemCostDeadlineHours || 24,
+                    isLeader: true,
+                  },
+                  sendSmsChannel: true,
+                });
+              }
             }
           }
         }

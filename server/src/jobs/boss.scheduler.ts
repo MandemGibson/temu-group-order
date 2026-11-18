@@ -25,7 +25,14 @@ export async function initPgBoss(): Promise<PgBoss | null> {
     await boss.start();
     console.log("🚀 PgBoss Background Job Queue Worker started successfully");
 
-    // Register job queues and schedules
+    // Create queues prior to scheduling to avoid FK constraint errors
+    await boss.createQueue("join-deadline-sweep");
+    await boss.createQueue("item-cost-deadline-sweep");
+    await boss.createQueue("shipping-deadline-sweep");
+    await boss.createQueue("reconcile-pending-tx");
+    await boss.createQueue("send-notification");
+
+    // Register job schedules
     await boss.schedule("join-deadline-sweep", "* * * * *");
     await boss.schedule("item-cost-deadline-sweep", "*/5 * * * *");
     await boss.schedule("shipping-deadline-sweep", "*/10 * * * *");

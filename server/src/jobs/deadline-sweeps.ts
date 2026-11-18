@@ -29,6 +29,7 @@ export async function sweepExpiredJoinDeadlines() {
       deadlineAt: { lt: now },
     },
     include: {
+      leader: true,
       joins: {
         where: { leftVoluntarilyAt: null },
       },
@@ -59,6 +60,37 @@ export async function sweepExpiredJoinDeadlines() {
       });
 
       await disbursePoolTransactions(pool.id);
+
+      // Notify buyers
+      for (const j of pool.joins) {
+        dispatchNotification({
+          userId: j.buyerId,
+          type: NotificationType.pool_funded,
+          payload: {
+            poolTitle: pool.title,
+            leaderName: pool.leader?.name || "Group Leader",
+            itemCostHours: pool.itemCostDeadlineHours || 24,
+          },
+          sendSmsChannel: true,
+        });
+      }
+
+      // Notify pool leader if not already notified in joins loop
+      const buyerIds = new Set(pool.joins.map((j) => j.buyerId));
+      if (!buyerIds.has(pool.leaderId)) {
+        dispatchNotification({
+          userId: pool.leaderId,
+          type: NotificationType.pool_funded,
+          payload: {
+            poolTitle: pool.title,
+            leaderName: pool.leader?.name || "Group Leader",
+            itemCostHours: pool.itemCostDeadlineHours || 24,
+            isLeader: true,
+          },
+          sendSmsChannel: true,
+        });
+      }
+
       succeededCount++;
     } else {
       // Pool Failed (Under 350 GHS) -> Mark Dead & Void to Buyer Credit
@@ -79,6 +111,21 @@ export async function sweepExpiredJoinDeadlines() {
           sendSmsChannel: true,
         });
       }
+
+      // Notify pool leader if not already in joins loop
+      const buyerIds = new Set(pool.joins.map((j) => j.buyerId));
+      if (!buyerIds.has(pool.leaderId)) {
+        dispatchNotification({
+          userId: pool.leaderId,
+          type: NotificationType.pool_dead,
+          payload: {
+            poolTitle: pool.title,
+            isLeader: true,
+          },
+          sendSmsChannel: true,
+        });
+      }
+
       deadCount++;
     }
   }
