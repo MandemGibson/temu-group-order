@@ -62,18 +62,55 @@ async function initPgBoss() {
         await boss.schedule("item-cost-deadline-sweep", "*/5 * * * *");
         await boss.schedule("shipping-deadline-sweep", "*/10 * * * *");
         await boss.schedule("reconcile-pending-tx", "*/15 * * * *");
-        // Register workers
+        // Concurrency overlap locks
+        let isJoinSweepRunning = false;
+        let isItemCostSweepRunning = false;
+        let isShippingSweepRunning = false;
+        let isReconcileSweepRunning = false;
+        // Register workers with overlap protection
         await boss.work("join-deadline-sweep", async () => {
-            await (0, deadline_sweeps_1.sweepExpiredJoinDeadlines)();
+            if (isJoinSweepRunning)
+                return;
+            isJoinSweepRunning = true;
+            try {
+                await (0, deadline_sweeps_1.sweepExpiredJoinDeadlines)();
+            }
+            finally {
+                isJoinSweepRunning = false;
+            }
         });
         await boss.work("item-cost-deadline-sweep", async () => {
-            await (0, deadline_sweeps_1.sweepExpiredItemCostDeadlines)();
+            if (isItemCostSweepRunning)
+                return;
+            isItemCostSweepRunning = true;
+            try {
+                await (0, deadline_sweeps_1.sweepExpiredItemCostDeadlines)();
+            }
+            finally {
+                isItemCostSweepRunning = false;
+            }
         });
         await boss.work("shipping-deadline-sweep", async () => {
-            await (0, deadline_sweeps_1.sweepMissedShippingDeadlines)();
+            if (isShippingSweepRunning)
+                return;
+            isShippingSweepRunning = true;
+            try {
+                await (0, deadline_sweeps_1.sweepMissedShippingDeadlines)();
+            }
+            finally {
+                isShippingSweepRunning = false;
+            }
         });
         await boss.work("reconcile-pending-tx", async () => {
-            await (0, deadline_sweeps_1.reconcilePendingTransactions)();
+            if (isReconcileSweepRunning)
+                return;
+            isReconcileSweepRunning = true;
+            try {
+                await (0, deadline_sweeps_1.reconcilePendingTransactions)();
+            }
+            finally {
+                isReconcileSweepRunning = false;
+            }
         });
         await boss.work("send-notification", async (job) => {
             const { dispatchNotification } = await Promise.resolve().then(() => __importStar(require("../services/notification.service")));

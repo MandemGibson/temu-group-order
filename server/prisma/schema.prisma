@@ -160,6 +160,8 @@ model Pool {
   @@index([status])
   @@index([leaderId])
   @@index([deadlineAt])
+  @@index([status, deadlineAt])
+  @@index([status, shipDeadlineAt])
 }
 
 // A single buyer's participation in a single pool
@@ -206,6 +208,7 @@ model PoolJoin {
   @@index([poolId])
   @@index([buyerId])
   @@index([itemCostStatus])
+  @@index([itemCostStatus, itemCostDeadlineAt])
 }
 
 model PoolJoinItem {
@@ -250,6 +253,7 @@ model Transaction {
 
   @@index([userId])
   @@index([status])
+  @@index([status, createdAt])
 }
 
 model BuyerCredit {

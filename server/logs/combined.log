@@ -402,3 +402,43 @@
 {"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:12:11.634Z"}
 {"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:12:12.270Z"}
 {"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:12:12.270Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:21:01.244Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:21:01.245Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:21:01.256Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:21:01.893Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:21:01.894Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:21:13.736Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:21:13.736Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:21:13.746Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:21:14.210Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:21:14.211Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:24:09.413Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:24:09.414Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:24:09.426Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:24:10.041Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:24:10.041Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:25:21.234Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:25:21.234Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:25:21.245Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:25:21.831Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:25:21.832Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:28:18.175Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:28:18.176Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:28:18.187Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:28:18.787Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:28:18.787Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:28:31.668Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:28:31.668Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:28:31.680Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:28:36.666Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:28:36.667Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:33:21.783Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:33:21.783Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:33:21.812Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:33:22.447Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:33:22.448Z"}
+{"level":"warn","message":"SIGTERM received. Initiating graceful shutdown...","service":"fides-backend","timestamp":"2026-11-18T01:33:41.200Z"}
+{"level":"info","message":"HTTP Server closed.","service":"fides-backend","timestamp":"2026-11-18T01:33:41.200Z"}
+{"level":"info","message":"PgBoss Worker stopped.","service":"fides-backend","timestamp":"2026-11-18T01:33:41.211Z"}
+{"level":"info","message":"Fides Server running in development mode on port 4000","service":"fides-backend","timestamp":"2026-11-18T01:33:41.758Z"}
+{"level":"info","message":"Deep Health check available at http://localhost:4000/api/health","service":"fides-backend","timestamp":"2026-11-18T01:33:41.759Z"}

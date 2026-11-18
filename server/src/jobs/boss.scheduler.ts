@@ -38,21 +38,51 @@ export async function initPgBoss(): Promise<PgBoss | null> {
     await boss.schedule("shipping-deadline-sweep", "*/10 * * * *");
     await boss.schedule("reconcile-pending-tx", "*/15 * * * *");
 
-    // Register workers
+    // Concurrency overlap locks
+    let isJoinSweepRunning = false;
+    let isItemCostSweepRunning = false;
+    let isShippingSweepRunning = false;
+    let isReconcileSweepRunning = false;
+
+    // Register workers with overlap protection
     await boss.work("join-deadline-sweep", async () => {
-      await sweepExpiredJoinDeadlines();
+      if (isJoinSweepRunning) return;
+      isJoinSweepRunning = true;
+      try {
+        await sweepExpiredJoinDeadlines();
+      } finally {
+        isJoinSweepRunning = false;
+      }
     });
 
     await boss.work("item-cost-deadline-sweep", async () => {
-      await sweepExpiredItemCostDeadlines();
+      if (isItemCostSweepRunning) return;
+      isItemCostSweepRunning = true;
+      try {
+        await sweepExpiredItemCostDeadlines();
+      } finally {
+        isItemCostSweepRunning = false;
+      }
     });
 
     await boss.work("shipping-deadline-sweep", async () => {
-      await sweepMissedShippingDeadlines();
+      if (isShippingSweepRunning) return;
+      isShippingSweepRunning = true;
+      try {
+        await sweepMissedShippingDeadlines();
+      } finally {
+        isShippingSweepRunning = false;
+      }
     });
 
     await boss.work("reconcile-pending-tx", async () => {
-      await reconcilePendingTransactions();
+      if (isReconcileSweepRunning) return;
+      isReconcileSweepRunning = true;
+      try {
+        await reconcilePendingTransactions();
+      } finally {
+        isReconcileSweepRunning = false;
+      }
     });
 
     await boss.work("send-notification", async (job: any) => {
