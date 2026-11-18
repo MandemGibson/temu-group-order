@@ -57,7 +57,7 @@ async function disbursePoolTransactions(poolId) {
     // Initiate real MoMo payout transfer to leader via Moolre Transfer API
     if (result.totalLeaderPesewas > 0 && result.leaderPhone) {
         const payoutRef = `PAYOUT_${result.poolId.slice(0, 8)}_${Date.now()}`;
-        logger_1.logger.info(`💸 Initiating Moolre MoMo Payout to Leader ${result.leaderName} (${result.leaderPhone}): GH₵ ${(result.totalLeaderPesewas / 100).toFixed(2)}`);
+        logger_1.logger.info(`Initiating Moolre MoMo Payout to Leader ${result.leaderName} (${result.leaderPhone}): GH₵ ${(result.totalLeaderPesewas / 100).toFixed(2)}`);
         try {
             const payoutResult = await moolre_service_1.moolreService.initiatePayoutTransfer({
                 receiverPhone: result.leaderPhone,
@@ -66,14 +66,14 @@ async function disbursePoolTransactions(poolId) {
                 reference: `Fides Leader Payout for ${result.poolTitle.slice(0, 20)}`,
             });
             if (!payoutResult.success) {
-                logger_1.logger.warn(`⚠️ Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`);
+                logger_1.logger.warn(`Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`);
             }
             else {
-                logger_1.logger.info(`✅ Moolre Payout Result:`, payoutResult);
+                logger_1.logger.info(`Moolre Payout Result:`, payoutResult);
             }
         }
         catch (payoutErr) {
-            logger_1.logger.error(`❌ Moolre payout transfer exception:`, payoutErr);
+            logger_1.logger.error(`Moolre payout transfer exception:`, payoutErr);
         }
     }
     return { disbursedCount: result.disbursedCount, totalLeaderPesewas: result.totalLeaderPesewas };

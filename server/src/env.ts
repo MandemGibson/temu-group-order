@@ -28,14 +28,14 @@ export function validateEnv(): EnvConfig {
   const isDev = process.env.NODE_ENV !== "production";
 
   if (!process.env.DATABASE_URL) {
-    throw new Error("❌ FATAL: DATABASE_URL environment variable is missing.");
+    throw new Error("FATAL: DATABASE_URL environment variable is missing.");
   }
 
   const jwtSecret =
     process.env.JWT_SECRET || "super-secret-temu-group-order-key-dev";
   if (!isDev && jwtSecret.includes("dev")) {
     console.warn(
-      "⚠️ WARNING: Weak or default JWT_SECRET used in production environment!",
+      "WARNING: Weak or default JWT_SECRET used in production environment!",
     );
   }
 

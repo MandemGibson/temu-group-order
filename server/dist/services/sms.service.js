@@ -5,11 +5,11 @@ const env_1 = require("../env");
 const logger_1 = require("../utils/logger");
 class ConsoleSmsService {
     async sendOtp(phone, code) {
-        logger_1.logger.info(`📱 [CONSOLE SMS] OTP Sent to ${phone} | Code: ${code} (Expires in ${env_1.env.OTP_EXPIRY_MINUTES}m)`);
+        logger_1.logger.info(`[CONSOLE SMS] OTP Sent to ${phone} | Code: ${code} (Expires in ${env_1.env.OTP_EXPIRY_MINUTES}m)`);
         return true;
     }
     async sendSms(phone, text) {
-        logger_1.logger.info(`📱 [CONSOLE SMS] Notification Sent to ${phone} | Text: "${text}"`);
+        logger_1.logger.info(`[CONSOLE SMS] Notification Sent to ${phone} | Text: "${text}"`);
         return true;
     }
 }
@@ -26,8 +26,8 @@ class MoolreHttpSmsService {
     }
     async sendSms(phone, text) {
         if (!this.vasKey || this.vasKey.includes("dev")) {
-            logger_1.logger.warn("⚠️ Moolre SMS VAS Key is not configured for production. Falling back to logger.");
-            logger_1.logger.info(`📱 [MOOLRE SMS MOCK] To: ${phone} | SenderID: ${this.senderId} | Content: "${text}"`);
+            logger_1.logger.warn("Moolre SMS VAS Key is not configured for production. Falling back to logger.");
+            logger_1.logger.info(`[MOOLRE SMS MOCK] To: ${phone} | SenderID: ${this.senderId} | Content: "${text}"`);
             return true;
         }
         try {
@@ -50,11 +50,11 @@ class MoolreHttpSmsService {
                 }),
             });
             const resData = await response.json();
-            logger_1.logger.info(`📡 [MOOLRE SMS DISPATCH RESPONSE] Status: ${response.status}`, { resData });
+            logger_1.logger.info(`[MOOLRE SMS DISPATCH RESPONSE] Status: ${response.status}`, { resData });
             return response.ok && (resData.status === 1 || resData.code === "SMS01");
         }
         catch (error) {
-            logger_1.logger.error("❌ Failed to send SMS via Moolre Gateway:", error);
+            logger_1.logger.error("Failed to send SMS via Moolre Gateway:", error);
             return false;
         }
     }

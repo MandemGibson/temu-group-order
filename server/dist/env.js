@@ -10,11 +10,11 @@ dotenv_1.default.config();
 function validateEnv() {
     const isDev = process.env.NODE_ENV !== "production";
     if (!process.env.DATABASE_URL) {
-        throw new Error("❌ FATAL: DATABASE_URL environment variable is missing.");
+        throw new Error("FATAL: DATABASE_URL environment variable is missing.");
     }
     const jwtSecret = process.env.JWT_SECRET || "super-secret-temu-group-order-key-dev";
     if (!isDev && jwtSecret.includes("dev")) {
-        console.warn("⚠️ WARNING: Weak or default JWT_SECRET used in production environment!");
+        console.warn("WARNING: Weak or default JWT_SECRET used in production environment!");
     }
     const port = Number(process.env.PORT || 4000);
     const minGhs = Number(process.env.TEMU_MIN_ORDER_GHS || 350);

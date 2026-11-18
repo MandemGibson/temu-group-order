@@ -13,7 +13,7 @@ import {
 import { prisma } from "../src/db";
 
 async function main() {
-  console.log("🌱 Clean seeding Temu Group-Order platform database...");
+  console.log("Seeding Temu Group-Order platform database...");
 
   // 0. Clean existing data in correct dependency order
   await prisma.review.deleteMany();
@@ -25,7 +25,7 @@ async function main() {
   await prisma.pool.deleteMany();
   await prisma.user.deleteMany();
 
-  console.log("🧹 Database cleared.");
+  console.log("Database cleared.");
 
   // 1. Create System Users
   // Super Admin
@@ -150,7 +150,7 @@ async function main() {
     },
   });
 
-  console.log("👤 Users & Buyer Credits created.");
+  console.log("Users & Buyer Credits created.");
 
   // 3. Create Pools covering all lifecycle stages
   const now = new Date();
@@ -540,7 +540,7 @@ async function main() {
     },
   });
 
-  console.log("📦 Pools & PoolJoins created covering all lifecycle states.");
+  console.log("Pools & PoolJoins created covering all lifecycle states.");
 
   // 4. Create In-App Notifications for testing the Bell Icon Dropdown
   await prisma.notification.create({
@@ -589,13 +589,13 @@ async function main() {
     },
   });
 
-  console.log("🔔 Notifications & Admin Disputes seeded.");
-  console.log("🎉 FULL UI SEEDING COMPLETED SUCCESSFULLY!");
+  console.log("Notifications & Admin Disputes seeded.");
+  console.log("FULL UI SEEDING COMPLETED SUCCESSFULLY!");
 }
 
 main()
   .catch((e) => {
-    console.error("❌ Seed Error:", e);
+    console.error("Seed Error:", e);
     process.exit(1);
   })
   .finally(async () => {

@@ -126,27 +126,27 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 
 // 6. Server Initialization & Graceful Shutdown
 const server = app.listen(env.PORT, async () => {
-  logger.info(`🚀 Fides Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
-  logger.info(`🏥 Deep Health check available at http://localhost:${env.PORT}/api/health`);
+  logger.info(`Fides Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
+  logger.info(`Deep Health check available at http://localhost:${env.PORT}/api/health`);
   await initPgBoss();
 });
 
 const gracefulShutdown = async (signal: string) => {
-  logger.warn(`🛑 ${signal} received. Initiating graceful shutdown...`);
+  logger.warn(`${signal} received. Initiating graceful shutdown...`);
 
   server.close(async () => {
-    logger.info("🔌 HTTP Server closed.");
+    logger.info("HTTP Server closed.");
     try {
       const boss = getPgBoss();
       if (boss) {
         await boss.stop();
-        logger.info("📦 PgBoss Worker stopped.");
+        logger.info("PgBoss Worker stopped.");
       }
       await prisma.$disconnect();
-      logger.info("🗄️ Database disconnected.");
+      logger.info("Database disconnected.");
       process.exit(0);
     } catch (err) {
-      logger.error("❌ Error during graceful shutdown:", err);
+      logger.error("Error during graceful shutdown:", err);
       process.exit(1);
     }
   });

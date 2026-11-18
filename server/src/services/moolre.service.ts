@@ -103,7 +103,7 @@ class MoolreServiceImplementation implements IMoolreService {
     if (isDev) {
       const mockRef = `MOOLRE_REF_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`;
       logger.info(
-        `💳 [MOOLRE PAYMENT MOCK] Initiated charge of GH₵ ${ghsAmount} to ${localPhone} (Channel ${channel}, Ref: ${idempotencyKey})`,
+        `[MOOLRE PAYMENT MOCK] Initiated charge of GH₵ ${ghsAmount} to ${localPhone} (Channel ${channel}, Ref: ${idempotencyKey})`,
       );
 
       return {
@@ -143,7 +143,7 @@ class MoolreServiceImplementation implements IMoolreService {
 
       const resData = await response.json();
       logger.info(
-        `💳 [MOOLRE API PAYMENT RESPONSE] Status: ${response.status}`,
+        `[MOOLRE API PAYMENT RESPONSE] Status: ${response.status}`,
         { resData },
       );
 
@@ -173,7 +173,7 @@ class MoolreServiceImplementation implements IMoolreService {
         message: resData.message || "Failed to initiate Moolre payment",
       };
     } catch (error: any) {
-      logger.error("❌ Moolre payment request error:", error);
+      logger.error("Moolre payment request error:", error);
       return {
         success: false,
         moolreTxRef: idempotencyKey,
@@ -216,7 +216,7 @@ class MoolreServiceImplementation implements IMoolreService {
       );
 
       const resData = await response.json();
-      logger.info(`🔍 [MOOLRE NAME VALIDATION RESPONSE]`, { resData });
+      logger.info(`[MOOLRE NAME VALIDATION RESPONSE]`, { resData });
 
       if (resData.status === 1 || resData.code === "AVD01") {
         return { success: true, accountName: resData.data };
@@ -227,7 +227,7 @@ class MoolreServiceImplementation implements IMoolreService {
         message: resData.message || "Phone number not found",
       };
     } catch (error: any) {
-      logger.error("❌ Moolre name validation error:", error);
+      logger.error("Moolre name validation error:", error);
       return { success: false, message: error.message };
     }
   }
@@ -245,7 +245,7 @@ class MoolreServiceImplementation implements IMoolreService {
     const isDev = env.NODE_ENV !== "production" || this.apiUser.includes("dev");
     if (isDev) {
       logger.info(
-        `💸 [MOOLRE PAYOUT MOCK] Disbursed GH₵ ${ghsAmount} to leader ${localPhone} (Ref: ${externalRef})`,
+        `[MOOLRE PAYOUT MOCK] Disbursed GH₵ ${ghsAmount} to leader ${localPhone} (Ref: ${externalRef})`,
       );
       return {
         success: true,
@@ -281,7 +281,7 @@ class MoolreServiceImplementation implements IMoolreService {
       );
 
       const resData = await response.json();
-      logger.info(`💸 [MOOLRE PAYOUT RESPONSE] Status: ${response.status}`, {
+      logger.info(`[MOOLRE PAYOUT RESPONSE] Status: ${response.status}`, {
         resData,
       });
 
@@ -307,7 +307,7 @@ class MoolreServiceImplementation implements IMoolreService {
           : resData.message || "Payout transfer failed",
       };
     } catch (error: any) {
-      logger.error("❌ Moolre payout transfer error:", error);
+      logger.error("Moolre payout transfer error:", error);
       return { success: false, message: error.message };
     }
   }
@@ -335,10 +335,10 @@ class MoolreServiceImplementation implements IMoolreService {
       );
 
       const resData = await response.json();
-      logger.info(`🔍 [MOOLRE STATUS API RESPONSE]`, { resData });
+      logger.info(`[MOOLRE STATUS API RESPONSE]`, { resData });
       return resData;
     } catch (error) {
-      logger.error("❌ Moolre status check error:", error);
+      logger.error("Moolre status check error:", error);
       return null;
     }
   }

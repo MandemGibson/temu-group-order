@@ -83,13 +83,13 @@ export async function disbursePoolTransactions(poolId: string) {
 
       if (!payoutResult.success) {
         logger.warn(
-          `⚠️ Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`
+          `Moolre Payout Transfer reported failure: ${payoutResult.message}. Reference: ${payoutRef}`
         );
       } else {
-        logger.info(`✅ Moolre Payout Result:`, payoutResult);
+        logger.info(`Moolre Payout Result:`, payoutResult);
       }
     } catch (payoutErr) {
-      logger.error(`❌ Moolre payout transfer exception:`, payoutErr);
+      logger.error(`Moolre payout transfer exception:`, payoutErr);
     }
   }
 

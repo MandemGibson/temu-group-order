@@ -9,13 +9,13 @@ export interface ISmsService {
 class ConsoleSmsService implements ISmsService {
   async sendOtp(phone: string, code: string): Promise<boolean> {
     logger.info(
-      `📱 [CONSOLE SMS] OTP Sent to ${phone} | Code: ${code} (Expires in ${env.OTP_EXPIRY_MINUTES}m)`
+      `[CONSOLE SMS] OTP Sent to ${phone} | Code: ${code} (Expires in ${env.OTP_EXPIRY_MINUTES}m)`
     );
     return true;
   }
 
   async sendSms(phone: string, text: string): Promise<boolean> {
-    logger.info(`📱 [CONSOLE SMS] Notification Sent to ${phone} | Text: "${text}"`);
+    logger.info(`[CONSOLE SMS] Notification Sent to ${phone} | Text: "${text}"`);
     return true;
   }
 }
@@ -36,8 +36,8 @@ class MoolreHttpSmsService implements ISmsService {
 
   async sendSms(phone: string, text: string): Promise<boolean> {
     if (!this.vasKey || this.vasKey.includes("dev")) {
-      logger.warn("⚠️ Moolre SMS VAS Key is not configured for production. Falling back to logger.");
-      logger.info(`📱 [MOOLRE SMS MOCK] To: ${phone} | SenderID: ${this.senderId} | Content: "${text}"`);
+      logger.warn("Moolre SMS VAS Key is not configured for production. Falling back to logger.");
+      logger.info(`[MOOLRE SMS MOCK] To: ${phone} | SenderID: ${this.senderId} | Content: "${text}"`);
       return true;
     }
 
@@ -63,11 +63,11 @@ class MoolreHttpSmsService implements ISmsService {
       });
 
       const resData = await response.json();
-      logger.info(`📡 [MOOLRE SMS DISPATCH RESPONSE] Status: ${response.status}`, { resData });
+      logger.info(`[MOOLRE SMS DISPATCH RESPONSE] Status: ${response.status}`, { resData });
 
       return response.ok && (resData.status === 1 || resData.code === "SMS01");
     } catch (error) {
-      logger.error("❌ Failed to send SMS via Moolre Gateway:", error);
+      logger.error("Failed to send SMS via Moolre Gateway:", error);
       return false;
     }
   }

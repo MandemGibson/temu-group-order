@@ -15,7 +15,7 @@ const logger_1 = require("./logger");
 async function uploadToCloudinary(fileBuffer, folder = "general", mimeType = "image/png") {
     // If Cloudinary keys are not set in dev, fallback to data URI / placeholder
     if (!env_1.env.CLOUDINARY_CLOUD_NAME || !env_1.env.CLOUDINARY_API_KEY) {
-        logger_1.logger.warn("⚠️ CLOUDINARY credentials not configured. Converting buffer to data URI string for dev preview.");
+        logger_1.logger.warn("CLOUDINARY credentials not configured. Converting buffer to data URI string for dev preview.");
         const base64 = fileBuffer.toString("base64");
         return `data:${mimeType};base64,${base64}`;
     }
@@ -29,7 +29,7 @@ async function uploadToCloudinary(fileBuffer, folder = "general", mimeType = "im
                 reject(new Error(`Failed to upload image to storage: ${error.message}`));
             }
             else if (result && result.secure_url) {
-                logger_1.logger.info(`📸 Image uploaded to Cloudinary: ${result.secure_url}`);
+                logger_1.logger.info(`Image uploaded to Cloudinary: ${result.secure_url}`);
                 resolve(result.secure_url);
             }
             else {
@@ -54,7 +54,7 @@ async function deleteFromCloudinary(publicUrl) {
         const pathWithoutVersion = pathWithVersion.replace(/^v\d+\//, "");
         const publicId = pathWithoutVersion.substring(0, pathWithoutVersion.lastIndexOf("."));
         await cloudinary_1.cloudinary.uploader.destroy(publicId);
-        logger_1.logger.info(`🗑️ Deleted asset from Cloudinary: ${publicId}`);
+        logger_1.logger.info(`Deleted asset from Cloudinary: ${publicId}`);
     }
     catch (error) {
         logger_1.logger.error("Failed to delete asset from Cloudinary:", error);

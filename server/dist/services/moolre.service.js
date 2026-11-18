@@ -52,7 +52,7 @@ class MoolreServiceImplementation {
         const isDev = env_1.env.NODE_ENV !== "production" || this.apiUser.includes("dev");
         if (isDev) {
             const mockRef = `MOOLRE_REF_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`;
-            logger_1.logger.info(`💳 [MOOLRE PAYMENT MOCK] Initiated charge of GH₵ ${ghsAmount} to ${localPhone} (Channel ${channel}, Ref: ${idempotencyKey})`);
+            logger_1.logger.info(`[MOOLRE PAYMENT MOCK] Initiated charge of GH₵ ${ghsAmount} to ${localPhone} (Channel ${channel}, Ref: ${idempotencyKey})`);
             return {
                 success: true,
                 moolreTxRef: mockRef,
@@ -81,7 +81,7 @@ class MoolreServiceImplementation {
                 body: JSON.stringify(payload),
             });
             const resData = await response.json();
-            logger_1.logger.info(`💳 [MOOLRE API PAYMENT RESPONSE] Status: ${response.status}`, { resData });
+            logger_1.logger.info(`[MOOLRE API PAYMENT RESPONSE] Status: ${response.status}`, { resData });
             if (resData.status === 1 || resData.code === "TR099") {
                 return {
                     success: true,
@@ -107,7 +107,7 @@ class MoolreServiceImplementation {
             };
         }
         catch (error) {
-            logger_1.logger.error("❌ Moolre payment request error:", error);
+            logger_1.logger.error("Moolre payment request error:", error);
             return {
                 success: false,
                 moolreTxRef: idempotencyKey,
@@ -141,7 +141,7 @@ class MoolreServiceImplementation {
                 }),
             });
             const resData = await response.json();
-            logger_1.logger.info(`🔍 [MOOLRE NAME VALIDATION RESPONSE]`, { resData });
+            logger_1.logger.info(`[MOOLRE NAME VALIDATION RESPONSE]`, { resData });
             if (resData.status === 1 || resData.code === "AVD01") {
                 return { success: true, accountName: resData.data };
             }
@@ -151,7 +151,7 @@ class MoolreServiceImplementation {
             };
         }
         catch (error) {
-            logger_1.logger.error("❌ Moolre name validation error:", error);
+            logger_1.logger.error("Moolre name validation error:", error);
             return { success: false, message: error.message };
         }
     }
@@ -164,7 +164,7 @@ class MoolreServiceImplementation {
         const channel = detectMoolreTransferChannel(localPhone);
         const isDev = env_1.env.NODE_ENV !== "production" || this.apiUser.includes("dev");
         if (isDev) {
-            logger_1.logger.info(`💸 [MOOLRE PAYOUT MOCK] Disbursed GH₵ ${ghsAmount} to leader ${localPhone} (Ref: ${externalRef})`);
+            logger_1.logger.info(`[MOOLRE PAYOUT MOCK] Disbursed GH₵ ${ghsAmount} to leader ${localPhone} (Ref: ${externalRef})`);
             return {
                 success: true,
                 moolreTxRef: `MOCK_PAYOUT_${Date.now()}`,
@@ -193,7 +193,7 @@ class MoolreServiceImplementation {
                 }),
             });
             const resData = await response.json();
-            logger_1.logger.info(`💸 [MOOLRE PAYOUT RESPONSE] Status: ${response.status}`, {
+            logger_1.logger.info(`[MOOLRE PAYOUT RESPONSE] Status: ${response.status}`, {
                 resData,
             });
             if (resData.status === 1 ||
@@ -216,7 +216,7 @@ class MoolreServiceImplementation {
             };
         }
         catch (error) {
-            logger_1.logger.error("❌ Moolre payout transfer error:", error);
+            logger_1.logger.error("Moolre payout transfer error:", error);
             return { success: false, message: error.message };
         }
     }
@@ -238,11 +238,11 @@ class MoolreServiceImplementation {
                 body: JSON.stringify(payload),
             });
             const resData = await response.json();
-            logger_1.logger.info(`🔍 [MOOLRE STATUS API RESPONSE]`, { resData });
+            logger_1.logger.info(`[MOOLRE STATUS API RESPONSE]`, { resData });
             return resData;
         }
         catch (error) {
-            logger_1.logger.error("❌ Moolre status check error:", error);
+            logger_1.logger.error("Moolre status check error:", error);
             return null;
         }
     }

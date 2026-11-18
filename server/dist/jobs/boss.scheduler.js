@@ -42,15 +42,15 @@ async function initPgBoss() {
     try {
         const databaseUrl = process.env.DATABASE_URL;
         if (!databaseUrl) {
-            console.warn("⚠️ DATABASE_URL not found. Skipping PgBoss initialization.");
+            console.warn("DATABASE_URL not found. Skipping PgBoss initialization.");
             return null;
         }
         const boss = new pg_boss_1.PgBoss({
             connectionString: databaseUrl,
         });
-        boss.on("error", (err) => console.error("❌ PgBoss error:", err));
+        boss.on("error", (err) => console.error("PgBoss error:", err));
         await boss.start();
-        console.log("🚀 PgBoss Background Job Queue Worker started successfully");
+        console.log("PgBoss Background Job Queue Worker started successfully");
         // Create queues prior to scheduling to avoid FK constraint errors
         await boss.createQueue("join-deadline-sweep");
         await boss.createQueue("item-cost-deadline-sweep");
@@ -83,7 +83,7 @@ async function initPgBoss() {
         return boss;
     }
     catch (error) {
-        console.error("❌ Failed to initialize PgBoss:", error);
+        console.error("Failed to initialize PgBoss:", error);
         return null;
     }
 }

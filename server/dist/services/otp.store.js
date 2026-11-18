@@ -19,7 +19,8 @@ class OtpStore {
             this.purgeExpired();
         }, 5 * 60 * 1000);
         // Unref cleanup timer so it does not block process exit
-        if (this.cleanupInterval && typeof this.cleanupInterval.unref === "function") {
+        if (this.cleanupInterval &&
+            typeof this.cleanupInterval.unref === "function") {
             this.cleanupInterval.unref();
         }
     }
@@ -97,7 +98,8 @@ class OtpStore {
         // Constant-time comparison to prevent timing side-channel attacks
         const codeBuf = Buffer.from(record.code, "utf8");
         const inputBuf = Buffer.from(trimmedInput, "utf8");
-        if (codeBuf.length === inputBuf.length && crypto_1.default.timingSafeEqual(codeBuf, inputBuf)) {
+        if (codeBuf.length === inputBuf.length &&
+            crypto_1.default.timingSafeEqual(codeBuf, inputBuf)) {
             this.store.delete(key);
             return { valid: true };
         }
