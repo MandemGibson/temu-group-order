@@ -1,9 +1,9 @@
-import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  { path: "/", index: true, lazy: () => import("./pages/landing/landing") },
+]);
 
 export default function App() {
-  return (
-    <div className="min-h-screen bg-white text-slate-900">
-      {/* Ready for your custom UI */}
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
